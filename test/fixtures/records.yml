@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  record_id: 00000000-0000-0000-0000-000000000001
+  request_id: request-id-1
+  submitted_at_utc: 2026-02-18 13:00:00 UTC
+  user: one
+  company_name: ABC
+  product_name: 제품1
+  quantity: 10
+
+two:
+  record_id: 00000000-0000-0000-0000-000000000002
+  request_id: request-id-2
+  submitted_at_utc: 2026-02-18 13:05:00 UTC
+  user: two
+  company_name: XYZ
+  product_name: 제품2
+  quantity: 20

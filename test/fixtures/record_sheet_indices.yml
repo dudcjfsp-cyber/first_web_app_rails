@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  record_id: 00000000-0000-0000-0000-000000000001
+  sheet_name: MASTER
+  row_number: 2
+
+two:
+  record_id: 00000000-0000-0000-0000-000000000002
+  sheet_name: XYZ
+  row_number: 3

@@ -1,0 +1,73 @@
+키별로 어디서 가져오나
+
+[RAILS_ENV]
+- 어디서 가져오나: 직접 입력
+- 입력 예시/주의: development 고정
+
+[APP_TIME_ZONE]
+- 어디서 가져오나: 직접 입력
+- 입력 예시/주의: UTC 고정
+
+[RAILS_MASTER_KEY]
+- 어디서 가져오나: Rails 앱 생성 후 config/master.key 파일
+- 입력 예시/주의: 파일 내용 그대로
+
+[SECRET_KEY_BASE]
+- 어디서 가져오나: Rails에서 생성 (bin/rails secret)
+- 입력 예시/주의: 긴 랜덤 문자열
+
+[DATABASE_URL]
+- 어디서 가져오나: PostgreSQL 설치 시 만든 계정/비밀번호/DB명
+- 입력 예시/주의: postgresql://user:pass@localhost:5432/dbname
+
+[APP_HOST]
+- 어디서 가져오나: 직접 입력
+- 입력 예시/주의: 로컬이면 http://localhost:3000
+
+[INITIAL_ADMIN_EMAIL]
+- 어디서 가져오나: 제작자 본인 Google 이메일
+- 입력 예시/주의: 로그인 이메일과 정확히 일치해야 최초 admin 부여
+
+[GOOGLE_OAUTH_CLIENT_ID]
+- 어디서 가져오나: Google Cloud Console > OAuth Client
+- 입력 예시/주의: 복사해서 붙여넣기
+
+[GOOGLE_OAUTH_CLIENT_SECRET]
+- 어디서 가져오나: Google Cloud Console > OAuth Client
+- 입력 예시/주의: 복사해서 붙여넣기
+
+[GOOGLE_OAUTH_REDIRECT_URI]
+- 어디서 가져오나: OAuth Client 설정 시 등록한 Redirect URI
+- 입력 예시/주의: 등록값과 100% 동일해야 함
+
+[GOOGLE_OAUTH_ALLOWED_DOMAIN]
+- 어디서 가져오나: 선택사항
+- 입력 예시/주의: 회사 계정만 허용 시 도메인 입력, 아니면 비움
+
+[GOOGLE_APPLICATION_CREDENTIALS]
+- 어디서 가져오나: 서비스 계정 JSON 키 파일 경로
+- 입력 예시/주의: Windows는 C:/.../service-account.json 권장
+
+[SPREADSHEET_ID]
+- 어디서 가져오나: Google Sheet URL에서 추출
+- 입력 예시/주의: /d/ 와 /edit 사이 문자열
+
+[GOOGLE_SHEETS_TEMPLATE_SHEET_NAME]
+- 어디서 가져오나: 직접 입력
+- 입력 예시/주의: TEMPLATE
+
+[GOOGLE_SHEETS_MASTER_SHEET_NAME]
+- 어디서 가져오나: 직접 입력
+- 입력 예시/주의: MASTER
+
+[GOOGLE_SHEETS_TIMEOUT_MS]
+- 어디서 가져오나: 정책값
+- 입력 예시/주의: 1000 (1초)
+
+[GOOGLE_SHEETS_OPEN_TIMEOUT_MS]
+- 어디서 가져오나: 정책값
+- 입력 예시/주의: 500
+
+[REDIS_URL]
+- 어디서 가져오나: Redis 사용 시
+- 입력 예시/주의: redis://localhost:6379/1

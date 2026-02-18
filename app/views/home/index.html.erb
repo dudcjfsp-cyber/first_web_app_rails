@@ -1,0 +1,49 @@
+<main class="chat-page">
+  <header class="chat-header">
+    <h1>웹앱 레일즈</h1>
+    <p>UTC 기준 입력 로그</p>
+    <div class="auth-bar">
+      <span><%= current_user.email %> (<%= current_user.role %>)</span>
+      <% if signed_in? %>
+        <%= button_to "로그아웃", logout_path, method: :delete, class: "auth-button" %>
+      <% else %>
+        <%= link_to "Google 로그인", "/auth/google_oauth2", class: "auth-button" %>
+      <% end %>
+    </div>
+  </header>
+
+  <% if flash[:notice] %>
+    <div class="chat-notice"><%= flash[:notice] %></div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div class="chat-alert"><%= flash[:alert] %></div>
+  <% end %>
+
+  <section class="chat-log">
+    <% if @records.any? %>
+      <% @records.each do |record| %>
+        <article class="chat-bubble">
+          <p class="chat-line">
+            <strong><%= record.company_name %></strong>
+            <span><%= record.product_name %></span>
+            <span><%= record.quantity %></span>
+          </p>
+          <p class="chat-meta">
+            <%= record.submitted_at_utc&.utc&.strftime("%Y-%m-%d %H:%M:%S UTC") %>
+          </p>
+        </article>
+      <% end %>
+    <% else %>
+      <p class="chat-empty">아직 저장된 메시지가 없습니다.</p>
+    <% end %>
+  </section>
+
+  <section class="chat-input">
+    <%= form_with url: messages_path, method: :post, local: true do |form| %>
+      <%= form.hidden_field :request_id, value: @request_id %>
+      <%= form.text_field :message, required: true, autocomplete: "off", placeholder: "예: ABC 제품A 10 제품B 20" %>
+      <%= form.submit "전송" %>
+    <% end %>
+  </section>
+</main>
