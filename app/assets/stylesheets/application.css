@@ -16,6 +16,61 @@ body {
   font-family: "Segoe UI", "Noto Sans KR", sans-serif;
 }
 
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-card {
+  width: min(420px, 100%);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #d0dae9;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+  padding: 20px;
+}
+
+.login-card h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.login-card p {
+  margin: 8px 0 0;
+  color: #475569;
+}
+
+.login-form {
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.login-form label {
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.login-form input {
+  border: 1px solid #c5d4ea;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.95rem;
+}
+
+.login-form input[type="submit"] {
+  margin-top: 8px;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #1d4ed8;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .chat-page {
   max-width: 840px;
   margin: 0 auto;
@@ -71,6 +126,56 @@ body {
 .chat-alert {
   background: #fee2e2;
   color: #991b1b;
+}
+
+.filter-panel {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.filter-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-form label {
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+.filter-form input[type="date"] {
+  border: 1px solid #c5d4ea;
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+.filter-form input[type="submit"] {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #0f766e;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.export-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #1d4ed8;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .chat-log {

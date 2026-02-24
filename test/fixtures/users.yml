@@ -2,10 +2,10 @@
 
 one:
   email: one@example.com
-  google_uid: google-uid-1
+  auth_uid: auth-uid-1
   role: member
 
 two:
   email: two@example.com
-  google_uid: google-uid-2
+  auth_uid: auth-uid-2
   role: admin

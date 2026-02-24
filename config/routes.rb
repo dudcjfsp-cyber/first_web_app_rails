@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   get "home/index"
   post "messages", to: "messages#create", as: :messages
-  get "/auth/:provider/callback", to: "sessions#create"
-  get "/auth/failure", to: "sessions#failure"
+  get "exports/records", to: "exports#records", as: :export_records
+  get "/login", to: "sessions#new", as: :login
+  post "/login", to: "sessions#local_create", as: :login_submit
   delete "/logout", to: "sessions#destroy", as: :logout
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

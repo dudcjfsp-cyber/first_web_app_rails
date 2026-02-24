@@ -1,4 +1,6 @@
 class LocalMessageIngestor
+  include ServiceResult
+
   def self.call(raw_text:, request_id:, user:)
     new(raw_text: raw_text, request_id: request_id, user: user).call
   end
@@ -40,21 +42,5 @@ class LocalMessageIngestor
         )
       end
     end
-  end
-
-  def success(records)
-    {
-      success: true,
-      data: records,
-      error_code: nil
-    }
-  end
-
-  def failure(error_code)
-    {
-      success: false,
-      data: nil,
-      error_code: error_code
-    }
   end
 end

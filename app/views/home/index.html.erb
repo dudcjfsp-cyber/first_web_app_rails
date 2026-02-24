@@ -4,11 +4,7 @@
     <p>UTC 기준 입력 로그</p>
     <div class="auth-bar">
       <span><%= current_user.email %> (<%= current_user.role %>)</span>
-      <% if signed_in? %>
-        <%= button_to "로그아웃", logout_path, method: :delete, class: "auth-button" %>
-      <% else %>
-        <%= link_to "Google 로그인", "/auth/google_oauth2", class: "auth-button" %>
-      <% end %>
+      <%= button_to "로그아웃", logout_path, method: :delete, class: "auth-button" %>
     </div>
   </header>
 
@@ -19,6 +15,22 @@
   <% if flash[:alert] %>
     <div class="chat-alert"><%= flash[:alert] %></div>
   <% end %>
+
+  <section class="filter-panel">
+    <%= form_with url: root_path, method: :get, local: true, class: "filter-form" do |form| %>
+      <label for="from_date">시작일(UTC)</label>
+      <%= form.date_field :from_date, value: @from_date_value, id: "from_date" %>
+
+      <label for="to_date">종료일(UTC)</label>
+      <%= form.date_field :to_date, value: @to_date_value, id: "to_date" %>
+
+      <%= form.submit "조회" %>
+    <% end %>
+
+    <%= link_to "엑셀(CSV) 다운로드",
+                export_records_path(from_date: @from_date_value, to_date: @to_date_value),
+                class: "export-button" %>
+  </section>
 
   <section class="chat-log">
     <% if @records.any? %>

@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+  before_action :require_sign_in
+
   def create
     result = LocalMessageIngestor.call(
       raw_text: params[:message],

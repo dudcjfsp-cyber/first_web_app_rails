@@ -2,6 +2,8 @@ class InputMessageParser
   FORMAT_ERROR = "FORMAT_ERROR".freeze
   NUMBER_ERROR = "NUMBER_ERROR".freeze
 
+  include ServiceResult
+
   def self.call(raw_text)
     new(raw_text).call
   end
@@ -45,21 +47,5 @@ class InputMessageParser
 
   def integer_token?(token)
     token.match?(/\A\d+\z/)
-  end
-
-  def success(payload)
-    {
-      success: true,
-      data: payload,
-      error_code: nil
-    }
-  end
-
-  def failure(error_code)
-    {
-      success: false,
-      data: nil,
-      error_code: error_code
-    }
   end
 end

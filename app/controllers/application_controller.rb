@@ -9,11 +9,11 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @current_user ||= session_user || local_development_user
+    @current_user ||= session_user
   end
 
   def signed_in?
-    session[:user_id].present?
+    current_user.present?
   end
 
   def session_user
@@ -22,10 +22,9 @@ class ApplicationController < ActionController::Base
     User.find_by(id: session[:user_id])
   end
 
-  def local_development_user
-    User.find_or_create_by!(email: "local-member@example.com") do |user|
-      user.google_uid = "local-member"
-      user.role = "member"
-    end
+  def require_sign_in
+    return if signed_in?
+
+    redirect_to login_path, alert: "로그인이 필요합니다."
   end
 end

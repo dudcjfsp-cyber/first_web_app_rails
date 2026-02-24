@@ -4,6 +4,7 @@ require "test_helper"
 class MessagesControllerTest < ActionDispatch::IntegrationTest
   setup do
     RequestIdGate.clear!
+    sign_in_local_member
   end
 
   test "stores normalized records when input is valid" do
@@ -19,6 +20,19 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     assert_equal "저장되었습니다.", flash[:notice]
     assert_equal [ "ABC", "ABC" ], Record.order(:id).last(2).map(&:company_name)
+  end
+
+  test "redirects to login when not signed in" do
+    delete logout_url
+
+    assert_no_difference("Record.count") do
+      post messages_url, params: {
+        message: "ABC 제품1 10",
+        request_id: SecureRandom.uuid
+      }
+    end
+
+    assert_redirected_to login_url
   end
 
   test "returns validation error when request_id is missing" do
@@ -61,5 +75,14 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to root_url
     assert_equal "이미 처리된 요청입니다.", flash[:alert]
+  end
+
+  private
+
+  def sign_in_local_member
+    post login_submit_url, params: {
+      email: "local-member@example.com",
+      password: ENV.fetch("SIMPLE_LOGIN_PASSWORD", "pass1234")
+    }
   end
 end

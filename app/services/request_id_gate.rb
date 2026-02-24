@@ -4,6 +4,8 @@ class RequestIdGate
   VALIDATION_ERROR = "VALIDATION_ERROR".freeze
   DUPLICATE_REQUEST = "DUPLICATE_REQUEST".freeze
 
+  include ServiceResult
+
   def self.run(request_id:, &block)
     new(request_id).run(&block)
   end
@@ -43,21 +45,5 @@ class RequestIdGate
     def store_mutex
       @store_mutex ||= Mutex.new
     end
-  end
-
-  def success(payload)
-    {
-      success: true,
-      data: payload,
-      error_code: nil
-    }
-  end
-
-  def failure(error_code)
-    {
-      success: false,
-      data: nil,
-      error_code: error_code
-    }
   end
 end

@@ -1,6 +1,8 @@
 class InputMessageValidator
   FORBIDDEN_SHEET_CHARS = /[\[\]:*?\/\\]/.freeze
 
+  include ServiceResult
+
   def self.call(raw_text)
     new(raw_text).call
   end
@@ -29,21 +31,5 @@ class InputMessageValidator
     company_name.empty? ||
       company_name.length > 30 ||
       company_name.match?(FORBIDDEN_SHEET_CHARS)
-  end
-
-  def success(payload)
-    {
-      success: true,
-      data: payload,
-      error_code: nil
-    }
-  end
-
-  def failure(error_code)
-    {
-      success: false,
-      data: nil,
-      error_code: error_code
-    }
   end
 end

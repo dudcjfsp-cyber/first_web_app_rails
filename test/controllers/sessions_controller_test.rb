@@ -1,63 +1,56 @@
 require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    OmniAuth.config.test_mode = true
-    OmniAuth.config.mock_auth[:google_oauth2] = nil
+  test "shows local login page" do
+    get login_url
+    assert_response :success
+    assert_includes response.body, "간편 로그인"
   end
 
-  teardown do
-    OmniAuth.config.test_mode = false
-    OmniAuth.config.mock_auth[:google_oauth2] = nil
-  end
-
-  test "T14 grants admin role on first login when email matches INITIAL_ADMIN_EMAIL" do
-    with_env("INITIAL_ADMIN_EMAIL" => "owner@example.com") do
-      OmniAuth.config.mock_auth[:google_oauth2] = mock_auth(
-        uid: "google-owner",
-        email: "owner@example.com"
-      )
-
-      assert_difference("User.count", 1) do
-        get "/auth/google_oauth2/callback"
-      end
-
-      assert_redirected_to root_url
-
-      user = User.find_by(email: "owner@example.com")
-      assert_equal "admin", user.role
+  test "logs in with local email and password" do
+    with_env("SIMPLE_LOGIN_PASSWORD" => "pass1234") do
+      post login_submit_url, params: {
+        email: "local-member@example.com",
+        password: "pass1234"
+      }
     end
+
+    assert_redirected_to root_url
+    user = User.find_by(email: "local-member@example.com")
+    assert_equal "member", user.role
   end
 
-  test "assigns member role when email does not match INITIAL_ADMIN_EMAIL" do
-    with_env("INITIAL_ADMIN_EMAIL" => "owner@example.com") do
-      OmniAuth.config.mock_auth[:google_oauth2] = mock_auth(
-        uid: "google-member",
-        email: "member@example.com"
-      )
+  test "grants admin role for initial admin email on local sign in" do
+    admin_email = "owner-local@example.com"
 
-      assert_difference("User.count", 1) do
-        get "/auth/google_oauth2/callback"
-      end
-
-      assert_redirected_to root_url
-
-      user = User.find_by(email: "member@example.com")
-      assert_equal "member", user.role
+    with_env(
+      "SIMPLE_LOGIN_PASSWORD" => "pass1234",
+      "INITIAL_ADMIN_EMAIL" => admin_email
+    ) do
+      post login_submit_url, params: {
+        email: admin_email,
+        password: "pass1234"
+      }
     end
+
+    assert_redirected_to root_url
+    user = User.find_by(email: admin_email)
+    assert_equal "admin", user.role
+  end
+
+  test "rejects local login when password is invalid" do
+    with_env("SIMPLE_LOGIN_PASSWORD" => "pass1234") do
+      post login_submit_url, params: {
+        email: "local-member@example.com",
+        password: "wrong"
+      }
+    end
+
+    assert_redirected_to login_url
+    assert_equal "이메일 또는 비밀번호가 올바르지 않습니다.", flash[:alert]
   end
 
   private
-
-  def mock_auth(uid:, email:)
-    OmniAuth::AuthHash.new(
-      provider: "google_oauth2",
-      uid: uid,
-      info: {
-        email: email
-      }
-    )
-  end
 
   def with_env(overrides)
     originals = {}

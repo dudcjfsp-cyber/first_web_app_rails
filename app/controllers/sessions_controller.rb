@@ -1,13 +1,25 @@
+require "digest"
+
 class SessionsController < ApplicationController
-  def create
-    auth = request.env["omniauth.auth"]
-    user = find_or_build_user_from(auth)
+  def new
+  end
+
+  def local_create
+    email = params[:email].to_s.strip.downcase
+    password = params[:password].to_s
+
+    if email.blank? || password != simple_login_password
+      redirect_to login_path, alert: "이메일 또는 비밀번호가 올바르지 않습니다."
+      return
+    end
+
+    user = find_or_build_local_user(email)
     user.save!
     session[:user_id] = user.id
 
     redirect_to root_path, notice: "로그인되었습니다."
   rescue ActiveRecord::RecordInvalid
-    redirect_to root_path, alert: "로그인에 실패했습니다."
+    redirect_to login_path, alert: "로그인에 실패했습니다."
   end
 
   def destroy
@@ -15,18 +27,7 @@ class SessionsController < ApplicationController
     redirect_to root_path, notice: "로그아웃되었습니다."
   end
 
-  def failure
-    redirect_to root_path, alert: "로그인에 실패했습니다."
-  end
-
   private
-
-  def find_or_build_user_from(auth)
-    user = User.find_or_initialize_by(google_uid: auth.uid)
-    user.email = auth.info.email
-    user.role = initial_role_for(user)
-    user
-  end
 
   def initial_role_for(user)
     return user.role if user.persisted?
@@ -40,5 +41,20 @@ class SessionsController < ApplicationController
     return false if expected.empty?
 
     email.to_s.strip.downcase == expected
+  end
+
+  def simple_login_password
+    ENV.fetch("SIMPLE_LOGIN_PASSWORD", "pass1234")
+  end
+
+  def find_or_build_local_user(email)
+    user = User.find_or_initialize_by(email: email)
+    user.auth_uid = local_uid_for(email) if user.auth_uid.blank?
+    user.role = initial_role_for(user) unless user.persisted?
+    user
+  end
+
+  def local_uid_for(email)
+    "local-#{Digest::SHA256.hexdigest(email)[0, 24]}"
   end
 end

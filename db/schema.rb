@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_18_132923) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_24_093000) do
   create_table "record_sheet_indices", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "record_id", null: false
@@ -37,13 +37,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_132923) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "auth_uid", null: false
     t.datetime "created_at", null: false
     t.string "email", null: false
-    t.string "google_uid", null: false
     t.string "role", default: "member", null: false
     t.datetime "updated_at", null: false
+    t.index ["auth_uid"], name: "index_users_on_auth_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["google_uid"], name: "index_users_on_google_uid", unique: true
   end
 
   add_foreign_key "records", "users"

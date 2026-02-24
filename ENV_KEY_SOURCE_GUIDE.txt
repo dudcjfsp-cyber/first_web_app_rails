@@ -28,21 +28,9 @@
 - 어디서 가져오나: 제작자 본인 Google 이메일
 - 입력 예시/주의: 로그인 이메일과 정확히 일치해야 최초 admin 부여
 
-[GOOGLE_OAUTH_CLIENT_ID]
-- 어디서 가져오나: Google Cloud Console > OAuth Client
-- 입력 예시/주의: 복사해서 붙여넣기
-
-[GOOGLE_OAUTH_CLIENT_SECRET]
-- 어디서 가져오나: Google Cloud Console > OAuth Client
-- 입력 예시/주의: 복사해서 붙여넣기
-
-[GOOGLE_OAUTH_REDIRECT_URI]
-- 어디서 가져오나: OAuth Client 설정 시 등록한 Redirect URI
-- 입력 예시/주의: 등록값과 100% 동일해야 함
-
-[GOOGLE_OAUTH_ALLOWED_DOMAIN]
-- 어디서 가져오나: 선택사항
-- 입력 예시/주의: 회사 계정만 허용 시 도메인 입력, 아니면 비움
+[SIMPLE_LOGIN_PASSWORD]
+- 어디서 가져오나: 직접 입력
+- 입력 예시/주의: 간편 로그인 테스트용 비밀번호
 
 [GOOGLE_APPLICATION_CREDENTIALS]
 - 어디서 가져오나: 서비스 계정 JSON 키 파일 경로
